@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Hands-on machine learning assignment using ensemble methods to predict California housing prices">
+    <meta name="author" content="Prof. Hasan Arslan, Suffolk University">
+    <title>Predicting California Housing Prices | Ensemble Methods Assignment</title>
+    
+    <style>
+        /* ========== CSS VARIABLES - Easy Customization ========== */
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #0891b2;
+            --accent-color: #059669;
+            --danger-color: #dc2626;
+            --warning-color: #f59e0b;
+            --dark: #1e293b;
+            --dark-light: #334155;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --border: #e2e8f0;
+            --code-bg: #1e293b;
+            --success: #10b981;
+            
+            --font-main: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            --font-mono: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+            
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+        }
+        
+        /* ========== RESET & BASE STYLES ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-main);
+            line-height: 1.6;
+            color: var(--dark);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+        
+        /* ========== CONTAINER & LAYOUT ========== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--shadow-xl);
+            overflow: hidden;
+        }
+        
+        /* ========== HEADER ========== */
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="none"/><circle cx="10" cy="10" r="2" fill="white" opacity="0.1"/><circle cx="50" cy="30" r="3" fill="white" opacity="0.1"/><circle cx="80" cy="20" r="2" fill="white" opacity="0.1"/><circle cx="30" cy="60" r="2" fill="white" opacity="0.1"/><circle cx="70" cy="70" r="3" fill="white" opacity="0.1"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .header .subtitle {
+            font-size: 1.25rem;
+            opacity: 0.95;
+            margin-bottom: 1rem;
+        }
+        
+        .header .meta {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+            font-size: 0.95rem;
+        }
+        
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .meta-item svg {
+            width: 20px;
+            height: 20px;
+        }
+        
+        /* ========== MAIN CONTENT ========== */
+        .content {
+            padding: 2rem;
+        }
+        
+        .section {
+            margin-bottom: 3rem;
+        }
+        
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .section-title svg {
+            width: 32px;
+            height: 32px;
+            flex-shrink: 0;
+        }
+        
+        .section-subtitle {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: var(--dark-light);
+        }
+        
+        /* ========== CARDS ========== */
+        .card {
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+        
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+        }
+        
+        .badge-primary { background: #dbeafe; color: var(--primary-color); }
+        .badge-success { background: #d1fae5; color: var(--accent-color); }
+        .badge-warning { background: #fef3c7; color: var(--warning-color); }
+        .badge-danger { background: #fee2e2; color: var(--danger-color); }
+        
+        /* ========== BUTTONS ========== */
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 1.5rem 0;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .btn svg {
+            width: 20px;
+            height: 20px;
+        }
+        
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-success {
+            background: var(--accent-color);
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #047857;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        /* ========== INFO BOXES ========== */
+        .info-box {
+            padding: 1.25rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            border-left: 4px solid;
+        }
+        
+        .info-box-blue {
+            background: #eff6ff;
+            border-color: var(--primary-color);
+        }
+        
+        .info-box-green {
+            background: #f0fdf4;
+            border-color: var(--accent-color);
+        }
+        
+        .info-box-yellow {
+            background: #fffbeb;
+            border-color: var(--warning-color);
+        }
+        
+        .info-box-title {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        /* ========== TABLES ========== */
+        .table-container {
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        thead {
+            background: var(--light);
+        }
+        
+        th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--dark);
+            border-bottom: 2px solid var(--border);
+        }
+        
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        tr:last-child td {
+            border-bottom: none;
+        }
+        
+        tbody tr:hover {
+            background: var(--light);
+        }
+        
+        /* ========== LISTS ========== */
+        .checklist {
+            list-style: none;
+        }
+        
+        .checklist li {
+            padding: 0.75rem 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+        
+        .checklist li::before {
+            content: '□';
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            flex-shrink: 0;
+        }
+        
+        ul:not(.checklist) {
+            list-style-position: inside;
+            margin-left: 1rem;
+        }
+        
+        ul:not(.checklist) li {
+            margin: 0.5rem 0;
+        }
+        
+        /* ========== CODE BLOCKS ========== */
+        .code-block {
+            background: var(--code-bg);
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1rem 0;
+            position: relative;
+        }
+        
+        .code-block code {
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        
+        .inline-code {
+            background: #f1f5f9;
+            color: var(--danger-color);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-family: var(--font-mono);
+            font-size: 0.9em;
+        }
+        
+        /* ========== TIMELINE ========== */
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border);
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-bottom: 2rem;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2.4rem;
+            top: 0.25rem;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            border: 3px solid white;
+            box-shadow: 0 0 0 2px var(--primary-color);
+        }
+        
+        /* ========== ACCORDION ========== */
+        .accordion {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+        
+        .accordion-item {
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .accordion-item:last-child {
+            border-bottom: none;
+        }
+        
+        .accordion-header {
+            background: var(--light);
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s ease;
+        }
+        
+        .accordion-header:hover {
+            background: #e2e8f0;
+        }
+        
+        .accordion-header h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        
+        .accordion-content-inner {
+            padding: 1.5rem;
+        }
+        
+        .accordion-item.active .accordion-content {
+            max-height: 2000px;
+        }
+        
+        .accordion-toggle {
+            transition: transform 0.3s ease;
+        }
+        
+        .accordion-item.active .accordion-toggle {
+            transform: rotate(180deg);
+        }
+        
+        /* ========== FOOTER ========== */
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .footer p {
+            opacity: 0.8;
+            margin: 0.5rem 0;
+        }
+        
+        .footer a {
+            color: var(--secondary-color);
+            text-decoration: none;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem 0.5rem;
+            }
+            
+            .header h1 {
+                font-size: 1.75rem;
+            }
+            
+            .header .subtitle {
+                font-size: 1rem;
+            }
+            
+            .header .meta {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .content {
+                padding: 1.5rem 1rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+            }
+            
+            .btn {
+                justify-content: center;
+            }
+        }
+        
+        /* ========== UTILITIES ========== */
+        .text-center { text-align: center; }
+        .text-muted { color: var(--gray); }
+        .mb-2 { margin-bottom: 1rem; }
+        .mb-3 { margin-bottom: 1.5rem; }
+        .mt-2 { margin-top: 1rem; }
+        .font-bold { font-weight: 700; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <header class="header">
+            <div class="header-content">
+                <h1>🏠 Predicting California Housing Prices</h1>
+                <p class="subtitle">Ensemble Methods in Machine Learning</p>
+                <div class="meta">
+                    <div class="meta-item">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                        </svg>
+                        <span>Predictive Analytics & Machine Learning</span>
+                    </div>
+                    <div class="meta-item">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <span>90-120 minutes</span>
+                    </div>
+                    <div class="meta-item">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <span>100 Points Total</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- MAIN CONTENT -->
+        <main class="content">
+            
+            <!-- OVERVIEW SECTION -->
+            <section class="section">
+                <h2 class="section-title">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    Assignment Overview
+                </h2>
+                
+                <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 1.5rem;">
+                    You've been hired as a data analyst by a California real estate agency. Your task is to build a predictive model that can estimate house prices based on neighborhood characteristics. This will help the agency price listings accurately, advise buyers on fair market value, and identify which features drive prices.
+                </p>
+                
+                <div class="info-box info-box-blue">
+                    <div class="info-box-title">
+                        📚 What You'll Learn
+                    </div>
+                    <ul>
+                        <li>Apply <strong>Random Forest</strong> and <strong>Gradient Boosting</strong> to real-world regression problems</li>
+                        <li>Evaluate model performance using RMSE, MAE, and R² metrics</li>
+                        <li>Interpret feature importance in a business context</li>
+                        <li>Communicate data-driven recommendations to stakeholders</li>
+                    </ul>
+                </div>
+
+                <div class="btn-group">
+                    <a href="https://colab.research.google.com/github/harslan/predictive-analytics/blob/main/assignments/california-housing/ISOM201H_Ensemble_Methods_Homework.ipynb" class="btn btn-primary" target="_blank">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                        </svg>
+                        Open in Google Colab
+                    </a>
+                    <a href="#dataset" class="btn btn-secondary">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"/>
+                        </svg>
+                        Learn About Dataset
+                    </a>
+                </div>
+            </section>
+
+            <!-- DATASET SECTION -->
+            <section class="section" id="dataset">
+                <h2 class="section-title">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"/>
+                    </svg>
+                    The California Housing Dataset
+                </h2>
+                
+                <p style="margin-bottom: 1.5rem;">
+                    This dataset is derived from the 1990 California census and contains information about 20,640 different neighborhoods (census block groups). Each neighborhood is described by several features that help predict median house values.
+                </p>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Feature</th>
+                                <th>Description</th>
+                                <th>Unit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>MedInc</strong></td>
+                                <td>Median income in the neighborhood</td>
+                                <td>$10,000s</td>
+                            </tr>
+                            <tr>
+                                <td><strong>HouseAge</strong></td>
+                                <td>Median age of houses</td>
+                                <td>Years</td>
+                            </tr>
+                            <tr>
+                                <td><strong>AveRooms</strong></td>
+                                <td>Average number of rooms per household</td>
+                                <td>Count</td>
+                            </tr>
+                            <tr>
+                                <td><strong>AveBedrms</strong></td>
+                                <td>Average number of bedrooms per household</td>
+                                <td>Count</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Population</strong></td>
+                                <td>Total neighborhood population</td>
+                                <td>Count</td>
+                            </tr>
+                            <tr>
+                                <td><strong>AveOccup</strong></td>
+                                <td>Average household occupancy</td>
+                                <td>Count</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Latitude</strong></td>
+                                <td>Geographic latitude</td>
+                                <td>Degrees</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Longitude</strong></td>
+                                <td>Geographic longitude</td>
+                                <td>Degrees</td>
+                            </tr>
+                            <tr style="background: #fef3c7;">
+                                <td><strong>MedianHouseValue</strong></td>
+                                <td><strong>Median house value (TARGET)</strong></td>
+                                <td><strong>$100,000s</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="info-box info-box-yellow">
+                    <div class="info-box-title">⚠️ Important Note</div>
+                    <p>House values are expressed in units of $100,000. So a value of 2.5 means $250,000.</p>
+                </div>
+            </section>
+
+            <!-- ASSIGNMENT STRUCTURE -->
+            <section class="section">
+                <h2 class="section-title">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                    </svg>
+                    Assignment Structure
+                </h2>
+
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Part 1: Data Exploration</h3>
+                                <span class="badge badge-primary">20 Points</span>
+                            </div>
+                            <p>Load and understand the dataset through visualizations and statistical analysis. Identify relationships between features and the target variable.</p>
+                            <ul>
+                                <li>Analyze summary statistics</li>
+                                <li>Create scatter plots and correlation heatmaps</li>
+                                <li>Interpret relationships and patterns</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Part 2: Model Training</h3>
+                                <span class="badge badge-primary">30 Points</span>
+                            </div>
+                            <p>Build and train two ensemble models: Random Forest and Gradient Boosting. Learn to set appropriate hyperparameters.</p>
+                            <ul>
+                                <li>Prepare data (train/test split)</li>
+                                <li>Train Random Forest Regressor</li>
+                                <li>Train Gradient Boosting Regressor</li>
+                                <li>Understand hyperparameters</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Part 3: Model Evaluation</h3>
+                                <span class="badge badge-warning">25 Points</span>
+                            </div>
+                            <p>Calculate and interpret evaluation metrics. Compare model performance and visualize predictions.</p>
+                            <ul>
+                                <li>Calculate RMSE, MAE, and R² for both models</li>
+                                <li>Interpret metrics in business context</li>
+                                <li>Analyze prediction accuracy visually</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Part 4: Business Interpretation</h3>
+                                <span class="badge badge-success">25 Points</span>
+                            </div>
+                            <p>Translate technical results into actionable business insights. Write an executive summary for stakeholders.</p>
+                            <ul>
+                                <li>Analyze feature importance</li>
+                                <li>Make model recommendations</li>
+                                <li>Discuss limitations and improvements</li>
+                                <li>Provide actionable insights for real estate agents</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- LEARNING OBJECTIVES -->
+            <section class="section">
+                <h2 class="section-title">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                    </svg>
+                    What You'll Master
+                </h2>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+                    <div class="card">
+                        <h3 style="color: var(--primary-color); margin-bottom: 0.75rem;">🎯 Technical Skills</h3>
+                        <ul style="list-style-position: outside; margin-left: 1.25rem;">
+                            <li>Random Forest vs Gradient Boosting</li>
+                            <li>Regression evaluation metrics</li>
+                            <li>Feature importance analysis</li>
+                            <li>Model comparison techniques</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h3 style="color: var(--accent-color); margin-bottom: 0.75rem;">💼 Business Skills</h3>
+                        <ul style="list-style-position: outside; margin-left: 1.25rem;">
+                            <li>Translating technical results</li>
+                            <li>Executive communication</li>
+                            <li>Stakeholder-focused insights</li>
+                            <li>Risk and limitation awareness</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h3 style="color: var(--secondary-color); margin-bottom: 0.75rem;">🔬 Analytical Skills</h3>
+                        <ul style="list-style-position: outside; margin-left: 1.25rem;">
+                            <li>Data exploration & visualization</li>
+                            <li>Pattern recognition</li>
+                            <li>Critical interpretation</li>
+                            <li>Error analysis</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- GETTING STARTED -->
+            <section class="section">
+                <h2 class="section-title">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                    </svg>
+                    Getting Started
+                </h2>
+
+                <div class="accordion">
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <h3>Step 1: Open Google Colab</h3>
+                            <svg class="accordion-toggle" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="accordion-content-inner">
+                                <p>Click the "Open in Google Colab" button at the top of this page. The notebook will open in a new tab.</p>
+                                <div class="info-box info-box-blue">
+                                    <strong>💡 Tip:</strong> Make sure you're signed into your Google account. Colab is free and doesn't require any setup!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <h3>Step 2: Save a Copy</h3>
+                            <svg class="accordion-toggle" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="accordion-content-inner">
+                                <p>Go to <strong>File → Save a copy in Drive</strong>. This creates your own editable version.</p>
+                                <div class="info-box info-box-yellow">
+                                    <strong>⚠️ Important:</strong> Don't skip this step! You can't edit the original shared notebook.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <h3>Step 3: Complete the Assignment</h3>
+                            <svg class="accordion-toggle" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="accordion-content-inner">
+                                <p>Follow the instructions in each section. Look for:</p>
+                                <ul>
+                                    <li><span class="inline-code">TODO:</span> markers indicating where to write code</li>
+                                    <li><span class="inline-code">[YOUR ANSWER]</span> sections for written responses</li>
+                                    <li><span class="inline-code">[YOUR CODE HERE]</span> placeholders to replace</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <h3>Step 4: Run All & Download</h3>
+                            <svg class="accordion-toggle" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="accordion-content-inner">
+                                <p>Before submitting:</p>
+                                <ol>
+                                    <li>Click <strong>Runtime → Run all</strong> to execute all cells</li>
+                                    <li>Check that there are no errors</li>
+                                    <li>Go to <strong>File → Download → Download .ipynb</strong></li>
+                                    <li>Submit the downloaded file to your course LMS</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SUBMISSION CHECKLIST -->
+            <section class="section">
+                <h2 class="section-title">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    Submission Checklist
+                </h2>
+
+                <div class="card">
+                    <p class="mb-2"><strong>Before you submit, make sure you've completed:</strong></p>
+                    <ul class="checklist">
+                        <li>All code cells run without errors</li>
+                        <li>All "YOUR CODE HERE" sections have been replaced</li>
+                        <li>All "YOUR ANSWER" sections contain thoughtful responses</li>
+                        <li>Visualizations display correctly</li>
+                        <li>Model metrics are calculated and interpreted</li>
+                        <li>Executive summary is complete (all 3 sections)</li>
+                        <li>Feature importance analysis is finished</li>
+                        <li>Notebook runs successfully with "Run all"</li>
+                    </ul>
+                </div>
+
+                <div class="info-box info-box-green" style="margin-top: 1.5rem;">
+                    <div class="info-box-title">✅ Ready to Submit?</div>
+                    <p>Download your completed notebook (<code>.ipynb</code> file) and upload it to your course learning management system by the due date.</p>
+                </div>
+            </section>
+
+            <!-- TIPS FOR SUCCESS -->
+            <section class="section">
+                <h2 class="section-title">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+                    </svg>
+                    Tips for Success
+                </h2>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem;">
+                    <div class="card" style="border-left: 4px solid var(--primary-color);">
+                        <h4 style="color: var(--primary-color); margin-bottom: 0.5rem;">💻 Coding Tips</h4>
+                        <ul style="font-size: 0.95rem;">
+                            <li>Read error messages carefully</li>
+                            <li>Check variable names for typos</li>
+                            <li>Use print() to debug</li>
+                            <li>Reference sklearn documentation</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="border-left: 4px solid var(--accent-color);">
+                        <h4 style="color: var(--accent-color); margin-bottom: 0.5rem;">📊 Analysis Tips</h4>
+                        <ul style="font-size: 0.95rem;">
+                            <li>Look for patterns in visualizations</li>
+                            <li>Compare metrics across models</li>
+                            <li>Think about practical implications</li>
+                            <li>Don't just report numbers—interpret them</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="border-left: 4px solid var(--secondary-color);">
+                        <h4 style="color: var(--secondary-color); margin-bottom: 0.5rem;">✍️ Writing Tips</h4>
+                        <ul style="font-size: 0.95rem;">
+                            <li>Write for a non-technical audience</li>
+                            <li>Support claims with specific metrics</li>
+                            <li>Be concise but thorough</li>
+                            <li>Proofread before submitting</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- BONUS CHALLENGES -->
+            <section class="section">
+                <h2 class="section-title">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
+                    </svg>
+                    Bonus Challenges
+                    <span class="badge badge-warning" style="margin-left: auto;">+10 Points</span>
+                </h2>
+
+                <p class="mb-3">Finished early? Want to go deeper? Choose ONE of these optional challenges for up to 10 extra points:</p>
+
+                <div class="card">
+                    <h3 style="color: var(--primary-color); margin-bottom: 0.75rem;">🎛️ Option 1: Hyperparameter Tuning</h3>
+                    <p>Use <code>GridSearchCV</code> to systematically search for optimal model parameters. Compare your tuned model's performance to the baseline.</p>
+                </div>
+
+                <div class="card">
+                    <h3 style="color: var(--accent-color); margin-bottom: 0.75rem;">🔍 Option 2: Error Analysis</h3>
+                    <p>Identify neighborhoods where your model makes large errors. Analyze their characteristics. Why does the model struggle with these cases?</p>
+                </div>
+
+                <div class="card">
+                    <h3 style="color: var(--secondary-color); margin-bottom: 0.75rem;">⚙️ Option 3: Feature Engineering</h3>
+                    <p>Create new features (e.g., rooms per household, population density) and retrain your models. Does performance improve? Document your process.</p>
+                </div>
+            </section>
+
+            <!-- RESOURCES -->
+            <section class="section">
+                <h2 class="section-title">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                    </svg>
+                    Additional Resources
+                </h2>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem;">
+                    <div class="card">
+                        <h4 style="margin-bottom: 0.75rem;">📚 Documentation</h4>
+                        <ul style="font-size: 0.9rem;">
+                            <li><a href="https://scikit-learn.org/stable/modules/ensemble.html#random-forests" target="_blank">Random Forest Guide</a></li>
+                            <li><a href="https://scikit-learn.org/stable/modules/ensemble.html#gradient-boosting" target="_blank">Gradient Boosting Guide</a></li>
+                            <li><a href="https://scikit-learn.org/stable/modules/model_evaluation.html#regression-metrics" target="_blank">Regression Metrics</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h4 style="margin-bottom: 0.75rem;">🎥 Videos</h4>
+                        <ul style="font-size: 0.9rem;">
+                            <li><a href="https://www.youtube.com/watch?v=J4Wdy0Wc_xQ" target="_blank">Random Forest Explained</a></li>
+                            <li><a href="https://www.youtube.com/watch?v=3CC4N4z3GJc" target="_blank">Gradient Boosting Intro</a></li>
+                            <li><a href="https://www.youtube.com/watch?v=wpQiEHYkBys" target="_blank">Feature Importance</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h4 style="margin-bottom: 0.75rem;">📝 Articles</h4>
+                        <ul style="font-size: 0.9rem;">
+                            <li><a href="https://towardsdatascience.com/understanding-random-forest-58381e0602d2" target="_blank">Understanding Random Forest</a></li>
+                            <li><a href="https://machinelearningmastery.com/gentle-introduction-gradient-boosting-algorithm-machine-learning/" target="_blank">Gradient Boosting Tutorial</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+            <p><strong>Predictive Analytics & Machine Learning</strong></p>
+            <p>Prof. Hasan Arslan | Suffolk University | Sawyer Business School</p>
+            <p style="margin-top: 1rem; font-size: 0.9rem;">
+                Questions? Email: <a href="/cdn-cgi/l/email-protection#d3bbb2a1a0bfb2bd93a0a6b5b5bcbfb8fdb6b7a6"><span class="__cf_email__" data-cfemail="c1a9a0b3b2ada0af81b2b4a7a7aeadaaefa4a5b4">[email&#160;protected]</span></a> | 
+                Office Hours: <a href="#">Schedule Here</a>
+            </p>
+            <p style="margin-top: 1rem; font-size: 0.85rem; opacity: 0.7;">
+                © 2025 | Built with ❤️ for data science education
+            </p>
+        </footer>
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        // Accordion functionality
+        function toggleAccordion(element) {
+            const accordionItem = element.parentElement;
+            const isActive = accordionItem.classList.contains('active');
+            
+            // Close all accordion items
+            document.querySelectorAll('.accordion-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Open clicked item if it wasn't active
+            if (!isActive) {
+                accordionItem.classList.add('active');
+            }
+        }
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href !== '#') {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }
+            });
+        });
+
+        // Add animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.card, .timeline-item').forEach(el => 
