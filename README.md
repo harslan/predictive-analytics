@@ -7,7 +7,7 @@ Course materials and resources for Predictive Analytics and Machine Learning.
 
 ## 📚 Course Resources
 
-### 🎯 [Term Project Guidelines](https://[your-github-username].github.io/predictive-analytics/project/)
+### 🎯 [Term Project Guidelines](https://harslan.github.io/predictive-analytics/project/)
 Complete guidelines for the individual term project including:
 - 4-week intensive timeline with supportive checkpoints
 - 10 pre-approved datasets across healthcare, business, finance, and HR
@@ -59,16 +59,16 @@ ISOM 835 focuses on applying predictive analytics and machine learning technique
 ## 🚀 Getting Started
 
 ### For Current Students:
-1. **Review the [Term Project Guidelines](https://[your-github-username].github.io/predictive-analytics/project/)**
+1. **Review the [Term Project Guidelines](https://harslan.github.io/predictive-analytics/project/)**
 2. **Choose a dataset** from the 10 pre-approved options or find your own
 3. **Set up your GitHub repository** for your project
 4. **Attend office hours** if you have questions or need feedback
 
 ### Quick Links:
-- 📋 [Project Guidelines](https://[your-github-username].github.io/predictive-analytics/project/)
-- 🎯 [Project Milestones](https://[your-github-username].github.io/predictive-analytics/project/#milestones)
-- 📊 [Recommended Datasets](https://[your-github-username].github.io/predictive-analytics/project/#resources)
-- ❓ [FAQ](https://[your-github-username].github.io/predictive-analytics/project/#faq)
+- 📋 [Project Guidelines](https://harslan.github.io/predictive-analytics/project/)
+- 🎯 [Project Milestones](https://harslan.github.io/predictive-analytics/project/#milestones)
+- 📊 [Recommended Datasets](https://harslan.github.io/predictive-analytics/project/#resources)
+- ❓ [FAQ](https://harslan.github.io/predictive-analytics/project/#faq)
 
 ---
 
@@ -122,7 +122,7 @@ Selected projects may also be showcased in:
 **Need help?**
 - 📅 **Office Hours:** Wednesdays 2-3 PM via [Zoom](https://suffolk.zoom.us/j/92394809332?from=addon)
 - 📧 **Email:** harslan@suffolk.edu
-- 📖 **Review:** [Project FAQ](https://[your-github-username].github.io/predictive-analytics/project/#faq)
+- 📖 **Review:** [Project FAQ](https://harslan.github.io/predictive-analytics/project/#faq)
 
 **Best practices:**
 - Come to office hours for dataset feedback and technical guidance
