@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISOM 835 Term Project Guidelines | Suffolk University</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #003478;
+            --secondary-color: #FFD100;
+            --accent-color: #0066CC;
+            --text-color: #333;
+            --light-bg: #f8f9fa;
+            --border-color: #dee2e6;
+            --success-color: #28a745;
+            --info-color: #17a2b8;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #fff;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #004a9c 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .header .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.95;
+            margin-bottom: 1rem;
+        }
+
+        .header .meta {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .header .meta-item {
+            background: rgba(255,255,255,0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            backdrop-filter: blur(10px);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .nav-sticky {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 3px solid var(--secondary-color);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            z-index: 100;
+            margin-bottom: 2rem;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .nav a {
+            color: var(--primary-color);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .nav a:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .section {
+            margin-bottom: 3rem;
+            scroll-margin-top: 80px;
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--secondary-color);
+        }
+
+        .section-subtitle {
+            color: var(--accent-color);
+            font-size: 1.5rem;
+            margin: 2rem 0 1rem 0;
+            font-weight: 600;
+        }
+
+        .info-box {
+            background: var(--light-bg);
+            border-left: 4px solid var(--accent-color);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+
+        .success-box {
+            background: #d4edda;
+            border-left: 4px solid var(--success-color);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+
+        .tip-box {
+            background: #d1ecf1;
+            border-left: 4px solid var(--info-color);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+
+        .milestone-card {
+            background: white;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .milestone-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .milestone-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .milestone-card .date {
+            color: #666;
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background: var(--primary-color);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: var(--light-bg);
+        }
+
+        .thanksgiving-row {
+            background: #fffef0;
+        }
+
+        .requirements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .requirement-card {
+            background: white;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .requirement-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .rubric-table {
+            width: 100%;
+            margin: 1rem 0;
+        }
+
+        .rubric-table th {
+            background: var(--accent-color);
+        }
+
+        .rubric-table .points {
+            font-weight: bold;
+            color: var(--success-color);
+        }
+
+        ul, ol {
+            margin: 0.5rem 0 0.5rem 1.5rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+        }
+
+        .checklist {
+            list-style: none;
+            margin-left: 0;
+        }
+
+        .checklist li:before {
+            content: "✓ ";
+            color: var(--success-color);
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            background: var(--accent-color);
+            color: white;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+
+        .badge.success {
+            background: var(--success-color);
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9em;
+        }
+
+        .footer {
+            background: var(--primary-color);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .footer a {
+            color: var(--secondary-color);
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.75rem;
+            }
+
+            .header .meta {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .nav {
+                flex-direction: column;
+            }
+
+            .requirements-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+        }
+
+        @media print {
+            .nav-sticky, .footer {
+                display: none;
+            }
+        }
+
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Highlight target section */
+        .section:target {
+            animation: highlight 2s ease;
+        }
+
+        @keyframes highlight {
+            0% { background: #d1ecf1; }
+            100% { background: transparent; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>ISOM 835 Individual Term Project</h1>
+        <div class="subtitle">Predictive Analytics and Machine Learning</div>
+        <div class="meta">
+            <div class="meta-item"><strong>Instructor:</strong> Hasan Arslan</div>
+            <div class="meta-item"><strong>Type:</strong> Individual Project</div>
+            <div class="meta-item"><strong>Due:</strong> Friday, December 12th, 11:59 PM</div>
+            <div class="meta-item"><strong>Timeline:</strong> 4 Weeks</div>
+        </div>
+    </header>
+
+    <nav class="nav-sticky">
+        <div class="nav">
+            <a href="#overview">Overview</a>
+            <a href="#github">GitHub</a>
+            <a href="#milestones">Milestones</a>
+            <a href="#deliverables">Deliverables</a>
+            <a href="#report">Report</a>
+            <a href="#grading">Grading</a>
+            <a href="#resources">Resources</a>
+            <a href="#faq">FAQ</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Overview Section -->
+        <section id="overview" class="section">
+            <h2 class="section-title">Project Overview</h2>
+            <p>In this individual term project, you'll apply the complete predictive analytics workflow to a real-world dataset. This project simulates professional analytics work and produces a <strong>portfolio-ready GitHub repository</strong> that you can showcase to potential employers.</p>
+
+            <div class="success-box">
+                <h3 style="margin-bottom: 1rem;">🎯 You've Got This!</h3>
+                <p>This is a <strong>4-week project</strong> (November 18 - December 12) designed to be completed with steady, focused work. The timeline below provides helpful checkpoints to guide your progress. With consistent effort of 10-15 hours per week, you'll create something you can be proud of!</p>
+            </div>
+
+            <div class="info-box">
+                <h3 style="margin-bottom: 1rem;">Learning Objectives</h3>
+                <ul>
+                    <li>Independently execute the full data science pipeline from raw data to insights</li>
+                    <li>Apply and compare multiple machine learning models with appropriate evaluation</li>
+                    <li>Translate technical findings into business-relevant recommendations</li>
+                    <li>Consider ethical implications and model interpretability</li>
+                    <li>Build a professional portfolio project demonstrating your analytics capabilities</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- GitHub Section -->
+        <section id="github" class="section">
+            <h2 class="section-title">GitHub Repository Requirement</h2>
+            
+            <div class="info-box">
+                <p><strong>📦 What you'll create:</strong> A public GitHub repository showcasing your complete term project. Submit the link via Canvas under the 'Term Project' assignment by Friday, December 12th at 11:59 PM.</p>
+            </div>
+
+            <h3 class="section-subtitle">Why GitHub?</h3>
+            <p>This repository becomes part of your professional portfolio. You can share it with potential employers during job interviews and internship applications.</p>
+            
+            <div class="success-box">
+                <h4 style="margin-bottom: 0.5rem;">🌟 Your GitHub Repository is Your Project Presentation - Make it Shine!</h4>
+                <p>Think of your repository as a living showcase of your skills. A well-crafted README with clear visualizations, organized code, and thoughtful documentation tells your story better than slides ever could.</p>
+                <p style="margin-top: 0.5rem;"><strong>Selected top projects will be featured in:</strong></p>
+                <ul>
+                    <li>Our department's project showcase</li>
+                    <li>The Immersive Gallery AI Theme Display (5th Floor, Sargent Hall)</li>
+                    <li>ISOM course portfolio (with your permission)</li>
+                </ul>
+            </div>
+
+            <h3 class="section-subtitle">Required Repository Components</h3>
+            <div class="requirements-grid">
+                <div class="requirement-card">
+                    <h4>1. README.md</h4>
+                    <p>Professional introduction including:</p>
+                    <ul>
+                        <li>Project title and summary</li>
+                        <li>Objectives</li>
+                        <li>Dataset description and source</li>
+                        <li>Tools and libraries</li>
+                        <li>Links to Colab notebooks</li>
+                        <li>Instructions to run analysis</li>
+                    </ul>
+                </div>
+
+                <div class="requirement-card">
+                    <h4>2. Google Colab Notebooks</h4>
+                    <p>Analysis notebooks with:</p>
+                    <ul>
+                        <li>Clear markdown explanations</li>
+                        <li>Well-organized code</li>
+                        <li>"Anyone with link" permissions</li>
+                        <li>Links in README</li>
+                    </ul>
+                </div>
+
+                <div class="requirement-card">
+                    <h4>3. Final Report</h4>
+                    <ul>
+                        <li>PDF or Markdown format</li>
+                        <li>Professional formatting</li>
+                        <li>10-12 pages</li>
+                    </ul>
+                </div>
+
+                <div class="requirement-card">
+                    <h4>4. Supporting Files</h4>
+                    <ul>
+                        <li>Visualizations folder</li>
+                        <li>.gitignore file</li>
+                        <li>Professional organization</li>
+                        <li>Clear naming conventions</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <p><strong>💡 Pro Tip:</strong> You can set up your GitHub repository at any time during the project. Many students find it helpful to create it early (Week 1 or 2) and gradually add content as they progress. This approach makes the final week less hectic!</p>
+            </div>
+        </section>
+
+        <!-- Milestones Section -->
+        <section id="milestones" class="section">
+            <h2 class="section-title">Project Milestones & Timeline</h2>
+
+            <div class="success-box">
+                <h3 style="margin-bottom: 1rem;">📊 Timeline Philosophy</h3>
+                <p>The milestones below are <strong>suggested checkpoints</strong> to help you pace yourself effectively. They're based on how successful students have structured their work in the past. Feel free to adapt the pace to your schedule, but staying roughly on track will help ensure you have time for quality work and revisions.</p>
+            </div>
+
+            <div class="milestone-card">
+                <h3><span class="badge">Checkpoint 1</span>Dataset Selection & Initial EDA</h3>
+                <div class="date">Suggested Completion: By Friday, November 22nd</div>
+                <ul>
+                    <li>Select your dataset (reach out if you'd like feedback on your choice!)</li>
+                    <li>Complete initial exploratory analysis</li>
+                    <li>Draft 2-3 business questions</li>
+                    <li>Consider starting your GitHub repository setup</li>
+                </ul>
+                <p><strong>Optional:</strong> Share a brief update in the Canvas discussion board if you'd like early feedback</p>
+            </div>
+
+            <div class="milestone-card">
+                <h3><span class="badge">Checkpoint 2</span>Preprocessing & Model Development</h3>
+                <div class="date">Suggested Completion: By Friday, December 6th</div>
+                <ul>
+                    <li>Complete data cleaning and preprocessing</li>
+                    <li>Implement your first 2-3 models (you can always add more later!)</li>
+                    <li>Begin model comparison and evaluation</li>
+                    <li>Upload working notebooks to GitHub if you've set it up</li>
+                </ul>
+                <p><strong>Note about Thanksgiving (Nov 28-29):</strong> This checkpoint period includes the Thanksgiving holiday. Many students find it helpful to make good progress in Week 1 so they can take a well-deserved break or work at a lighter pace during the holiday week.</p>
+            </div>
+
+            <div class="milestone-card">
+                <h3><span class="badge success">Final Submission</span>Complete Project</h3>
+                <div class="date">Due: Friday, December 12th, 11:59 PM</div>
+                <ul>
+                    <li>Complete GitHub repository with all components</li>
+                    <li>Final written report (PDF)</li>
+                    <li>Professional README that showcases your work</li>
+                </ul>
+                <p><strong>Submit via Canvas:</strong> GitHub link + PDF report</p>
+            </div>
+
+            <h3 class="section-subtitle">Weekly Roadmap</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 15%;">Week</th>
+                        <th style="width: 35%;">Focus Area</th>
+                        <th>Suggested Activities</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Week 1</strong><br><small>Nov 18-22</small></td>
+                        <td>Dataset Selection & Initial EDA</td>
+                        <td>Review guidelines, explore potential datasets, select your dataset, complete initial exploratory analysis, draft 2-3 business questions</td>
+                    </tr>
+                    <tr class="thanksgiving-row">
+                        <td><strong>Week 2</strong><br><small>Nov 25-29</small><br><small>🦃 Thanksgiving Week</small></td>
+                        <td>Data Preprocessing & Cleaning</td>
+                        <td>Clean data, handle missing values, encode features, engineer new features, create train/test split. <em>Many students work ahead before Thanksgiving and take a lighter week during the holiday.</em></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Week 3</strong><br><small>Dec 2-6</small></td>
+                        <td>Model Building & Evaluation</td>
+                        <td>Implement 2-3 models, compare performance, tune hyperparameters, interpret results, document findings. Start drafting report sections.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Week 4</strong><br><small>Dec 9-12</small></td>
+                        <td>Final Report & Polishing</td>
+                        <td>Complete final report, organize GitHub repository, polish your README, proofread everything, test all links. Submit by Friday Dec 12th at 11:59 PM.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="tip-box" style="margin-top: 1.5rem;">
+                <h4 style="margin-bottom: 0.5rem;">💡 Pacing Suggestions from Past Students</h4>
+                <ul style="margin-top: 0.5rem;">
+                    <li><strong>Early dataset selection helps:</strong> Choosing your dataset early in Week 1 gives you maximum time for analysis and iteration.</li>
+                    <li><strong>Thanksgiving planning:</strong> Since Week 2 includes Thanksgiving, consider whether you'll want to work ahead in Week 1 or plan for catch-up time the weekend after the holiday.</li>
+                    <li><strong>Leave buffer time:</strong> Finishing your analysis by early Week 4 gives you time to write a thoughtful report rather than rushing.</li>
+                    <li><strong>Questions are welcome:</strong> Reach out during office hours if you'd like feedback at any stage!</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Deliverables Section -->
+        <section id="deliverables" class="section">
+            <h2 class="section-title">Project Steps & Required Deliverables</h2>
+
+            <div class="info-box">
+                <h3 style="margin-bottom: 1rem;">1. Dataset Selection</h3>
+                <p><strong>What to do:</strong></p>
+                <ul>
+                    <li>Choose a dataset that interests you and has real-world relevance</li>
+                    <li>Look for something substantial but not overwhelming</li>
+                    <li>Suggested sources: Kaggle, UCI ML Repository, government open data portals</li>
+                </ul>
+                <p><strong>Dataset Requirements:</strong></p>
+                <ul class="checklist">
+                    <li>Minimum 1,000 observations</li>
+                    <li>At least 8 features</li>
+                    <li>Clear prediction target (classification or regression)</li>
+                    <li>Real-world data (not pre-cleaned "toy" datasets)</li>
+                </ul>
+                <p><strong>Deliverable:</strong> Dataset source, link, and brief rationale (1-2 paragraphs) in your report</p>
+            </div>
+
+            <div class="info-box">
+                <h3 style="margin-bottom: 1rem;">2. Exploratory Data Analysis (EDA)</h3>
+                <p><strong>What to do:</strong></p>
+                <ul>
+                    <li>Analyze data structure, types, distributions, and relationships</li>
+                    <li>Create meaningful visualizations (histograms, scatter plots, correlation heatmaps, box plots, etc.)</li>
+                    <li>Identify patterns, anomalies, and data quality issues</li>
+                    <li>Document insights that inform your modeling decisions</li>
+                </ul>
+                <p><strong>Deliverable in Report:</strong> Summary of EDA findings with at least 6 meaningful plots</p>
+                <p><strong>Deliverable in Colab:</strong> Well-documented EDA notebook with clear markdown explanations</p>
+            </div>
+
+            <div class="info-box">
+                <h3 style="margin-bottom: 1rem;">3. Data Cleaning and Preprocessing</h3>
+                <p><strong>What to do:</strong></p>
+                <ul>
+                    <li>Handle missing values (document your strategy)</li>
+                    <li>Address outliers and anomalies</li>
+                    <li>Encode categorical variables</li>
+                    <li>Scale/normalize numerical features</li>
+                    <li>Engineer meaningful new features if appropriate</li>
+                    <li>Create train/test split (or train/validation/test)</li>
+                </ul>
+                <p><strong>Deliverable:</strong> Clear documentation of preprocessing steps in both code and report</p>
+            </div>
+
+            <div class="info-box">
+                <h3 style="margin-bottom: 1rem;">4. Model Development and Evaluation</h3>
+                <p><strong>What to do:</strong></p>
+                <ul>
+                    <li>Implement and compare <strong>at least 2 different model types</strong> (e.g., logistic regression, decision trees, random forest, gradient boosting, neural networks)</li>
+                    <li>Use appropriate evaluation metrics for your problem type</li>
+                    <li>Perform hyperparameter tuning on your best models</li>
+                    <li>Include cross-validation where appropriate</li>
+                    <li>Compare model performance using metrics, confusion matrices, ROC curves, etc.</li>
+                </ul>
+                <p><strong>Deliverable:</strong> Complete model comparison with evaluation metrics, visualizations, and interpretation</p>
+                
+                <div class="tip-box" style="margin-top: 1rem;">
+                    <p><strong>💡 About the Model Requirement:</strong> The requirement is a minimum of 2 models to ensure you can compare approaches. Many students find it natural to try 3-4 models as they explore different techniques. Quality analysis of 2 well-chosen models is better than superficial implementation of many models!</p>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h3 style="margin-bottom: 1rem;">5. Interpretability and Business Insights</h3>
+                <p><strong>What to do:</strong></p>
+                <ul>
+                    <li>Interpret model results in business context</li>
+                    <li>Identify most important features and explain their impact</li>
+                    <li>Generate actionable recommendations based on your findings</li>
+                    <li>Consider model limitations and appropriate use cases</li>
+                </ul>
+                <p><strong>Deliverable:</strong> Business-focused interpretation section in report with clear recommendations</p>
+            </div>
+
+            <div class="info-box">
+                <h3 style="margin-bottom: 1rem;">6. Ethics and Responsible AI Reflection</h3>
+                <p><strong>What to consider:</strong></p>
+                <ul>
+                    <li>Potential biases in data or model predictions</li>
+                    <li>Fairness considerations across different groups</li>
+                    <li>Privacy and data security implications</li>
+                    <li>Responsible deployment considerations</li>
+                    <li>Transparency and explainability requirements</li>
+                </ul>
+                <p><strong>Deliverable:</strong> 1-2 page ethics reflection in your report</p>
+            </div>
+        </section>
+
+        <!-- Report Section -->
+        <section id="report" class="section">
+            <h2 class="section-title">Final Report Requirements</h2>
+
+            <div class="info-box">
+                <p><strong>Format:</strong> Professional business report (PDF or Markdown), 10-12 pages</p>
+                <p><strong>Audience:</strong> Write for a business-savvy reader who may not know machine learning details but wants to understand your approach and findings</p>
+            </div>
+
+            <h3 class="section-subtitle">Required Sections</h3>
+
+            <div class="requirement-card">
+                <h4>1. Executive Summary (1 page)</h4>
+                <ul>
+                    <li>Brief overview of business problem</li>
+                    <li>Dataset description</li>
+                    <li>Approach summary</li>
+                    <li>Key findings and recommendations</li>
+                </ul>
+            </div>
+
+            <div class="requirement-card">
+                <h4>2. Introduction & Business Context (1-2 pages)</h4>
+                <ul>
+                    <li>Business problem and objectives</li>
+                    <li>Why this problem matters</li>
+                    <li>Research questions you're addressing</li>
+                    <li>Dataset introduction and source</li>
+                </ul>
+            </div>
+
+            <div class="requirement-card">
+                <h4>3. Exploratory Data Analysis (2-3 pages)</h4>
+                <ul>
+                    <li>Data structure and characteristics</li>
+                    <li>Key patterns and relationships discovered</li>
+                    <li>Data quality issues encountered</li>
+                    <li>Visualizations with interpretations (minimum 6 plots)</li>
+                </ul>
+            </div>
+
+            <div class="requirement-card">
+                <h4>4. Methodology (2-3 pages)</h4>
+                <ul>
+                    <li>Data preprocessing steps</li>
+                    <li>Feature engineering decisions</li>
+                    <li>Models selected and why</li>
+                    <li>Evaluation metrics chosen</li>
+                    <li>Hyperparameter tuning approach</li>
+                </ul>
+            </div>
+
+            <div class="requirement-card">
+                <h4>5. Results & Model Comparison (2-3 pages)</h4>
+                <ul>
+                    <li>Performance metrics for each model</li>
+                    <li>Comparative analysis</li>
+                    <li>Visualizations (confusion matrices, ROC curves, etc.)</li>
+                    <li>Feature importance analysis</li>
+                    <li>Best model selection and justification</li>
+                </ul>
+            </div>
+
+            <div class="requirement-card">
+                <h4>6. Business Insights & Recommendations (1-2 pages)</h4>
+                <ul>
+                    <li>Translation of technical results to business value</li>
+                    <li>Actionable recommendations</li>
+                    <li>Implementation considerations</li>
+                    <li>Expected business impact</li>
+                </ul>
+            </div>
+
+            <div class="requirement-card">
+                <h4>7. Ethics & Responsible AI (1-2 pages)</h4>
+                <ul>
+                    <li>Potential biases identified</li>
+                    <li>Fairness considerations</li>
+                    <li>Privacy and security implications</li>
+                    <li>Recommendations for responsible deployment</li>
+                </ul>
+            </div>
+
+            <div class="requirement-card">
+                <h4>8. Conclusion & Future Work (1 page)</h4>
+                <ul>
+                    <li>Summary of achievements</li>
+                    <li>Limitations of current approach</li>
+                    <li>Suggestions for future improvements</li>
+                    <li>Lessons learned</li>
+                </ul>
+            </div>
+
+            <div class="requirement-card">
+                <h4>9. References & Acknowledgments</h4>
+                <ul>
+                    <li>Dataset source and documentation</li>
+                    <li>Code references and tutorials used</li>
+                    <li>Libraries and tools</li>
+                    <li>AI assistance acknowledgment (if used)</li>
+                </ul>
+            </div>
+
+            <div class="tip-box" style="margin-top: 1.5rem;">
+                <p><strong>💡 Writing Tips:</strong> Start drafting sections as you complete each phase of analysis. For example, write your EDA section right after completing the exploratory analysis while insights are fresh. This makes Week 4 much more manageable!</p>
+            </div>
+        </section>
+
+        <!-- Grading Section -->
+        <section id="grading" class="section">
+            <h2 class="section-title">Grading Rubric</h2>
+
+            <div class="info-box">
+                <p><strong>Total Points: 100</strong></p>
+                <p>Your project will be evaluated on both technical execution and communication quality. Strong work in both areas creates an excellent portfolio piece!</p>
+            </div>
+
+            <table class="rubric-table">
+                <thead>
+                    <tr>
+                        <th style="width: 50%;">Component</th>
+                        <th style="width: 15%;">Points</th>
+                        <th>Key Evaluation Criteria</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>GitHub Repository Quality</strong></td>
+                        <td class="points">15</td>
+                        <td>Professional README, organized structure, working Colab links, clear documentation</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Exploratory Data Analysis</strong></td>
+                        <td class="points">15</td>
+                        <td>Comprehensive exploration, meaningful visualizations, insightful observations</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Data Preprocessing</strong></td>
+                        <td class="points">15</td>
+                        <td>Appropriate cleaning, thoughtful feature engineering, well-documented decisions</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Model Development</strong></td>
+                        <td class="points">20</td>
+                        <td>Multiple appropriate models, proper implementation, hyperparameter tuning</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Model Evaluation</strong></td>
+                        <td class="points">15</td>
+                        <td>Appropriate metrics, thorough comparison, sound model selection reasoning</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Business Insights</strong></td>
+                        <td class="points">10</td>
+                        <td>Clear translation to business value, actionable recommendations, practical considerations</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Ethics & Interpretability</strong></td>
+                        <td class="points">5</td>
+                        <td>Thoughtful reflection on bias, fairness, responsible deployment</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Report Quality</strong></td>
+                        <td class="points">5</td>
+                        <td>Professional formatting, clear writing, proper structure, good visualizations</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="success-box" style="margin-top: 1.5rem;">
+                <h4 style="margin-bottom: 0.5rem;">What Makes an Excellent Project?</h4>
+                <ul>
+                    <li><strong>Thoughtful approach:</strong> Clear reasoning behind every decision</li>
+                    <li><strong>Strong documentation:</strong> Code and analysis are easy to follow</li>
+                    <li><strong>Business relevance:</strong> Technical work connects to real-world value</li>
+                    <li><strong>Professional presentation:</strong> GitHub repository and report you'd be proud to show an employer</li>
+                    <li><strong>Honest reflection:</strong> Acknowledging limitations shows maturity</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Academic Integrity Section -->
+        <section id="integrity" class="section">
+            <h2 class="section-title">Academic Integrity & AI Tools</h2>
+
+            <h3 class="section-subtitle">Collaboration Policy</h3>
+            <p>This is an <strong>individual project</strong>. You may:</p>
+            <ul>
+                <li>Discuss general concepts and approaches with classmates</li>
+                <li>Share resources and learning materials</li>
+                <li>Ask questions in office hours and discussion boards</li>
+            </ul>
+            <p>You may NOT:</p>
+            <ul>
+                <li>Share code or notebooks with other students</li>
+                <li>Copy solutions from online sources or previous projects</li>
+                <li>Submit work that is not your own</li>
+            </ul>
+
+            <h3 class="section-subtitle">AI Tool Policy</h3>
+            <p>You're welcome to use AI assistants to help learn concepts and debug code, with these expectations:</p>
+            <ul>
+                <li>You must understand and be able to explain all submitted code</li>
+                <li>Document AI assistance in your report's acknowledgments section</li>
+                <li>The analysis, insights, and recommendations must be your original thinking</li>
+                <li>Simply copying AI-generated code without understanding doesn't support your learning</li>
+            </ul>
+
+            <div class="tip-box">
+                <p><strong>💡 AI Tools for Learning:</strong> AI assistants work best when you use them to understand concepts, explain errors, or explore alternative approaches - not as a shortcut to skip learning. The goal is to build skills you'll use in your career!</p>
+            </div>
+
+            <h3 class="section-subtitle">Citations</h3>
+            <p>Properly cite all external resources:</p>
+            <ul>
+                <li>Dataset source and documentation</li>
+                <li>Code adapted from tutorials or Stack Overflow</li>
+                <li>Research papers or articles that informed your approach</li>
+                <li>Python libraries and tools used</li>
+            </ul>
+        </section>
+
+        <!-- Resources Section -->
+        <section id="resources" class="section">
+            <h2 class="section-title">Resources & Support</h2>
+
+            <h3 class="section-subtitle">Recommended Tools</h3>
+            <ul>
+                <li><strong>Primary Language:</strong> Python 3.x</li>
+                <li><strong>Environment:</strong> Google Colab (required)</li>
+                <li><strong>Version Control:</strong> Git/GitHub (required)</li>
+                <li><strong>Core Libraries:</strong> pandas, numpy, scikit-learn, matplotlib, seaborn</li>
+                <li><strong>Optional Advanced:</strong> XGBoost, LightGBM, TensorFlow, PyTorch, SHAP</li>
+            </ul>
+
+            <h3 class="section-subtitle">Data Sources</h3>
+            
+            <div class="success-box">
+                <h4 style="margin-bottom: 1rem;">🎯 Recommended Datasets (Pre-Approved)</h4>
+                <p>These datasets are pre-vetted and ready to use for your project. You can start immediately with any of these - no approval needed! You're also welcome to find your own dataset (just reach out if you'd like early feedback on your choice).</p>
+            </div>
+
+            <div class="requirements-grid" style="margin-top: 1.5rem;">
+                <div class="requirement-card">
+                    <h4>🏥 Healthcare & Medical</h4>
+                    <ul style="margin-top: 0.5rem;">
+                        <li><a href="https://www.kaggle.com/datasets/uciml/pima-indians-diabetes-database" target="_blank"><strong>Diabetes Prediction</strong></a> - Predict diabetes based on diagnostic measurements (768 obs, 9 features)</li>
+                        <li><a href="https://www.kaggle.com/datasets/redwankarimsony/heart-disease-data" target="_blank"><strong>Heart Disease (UCI)</strong></a> - Classify heart disease presence (303 obs, 14 features)</li>
+                    </ul>
+                </div>
+
+                <div class="requirement-card">
+                    <h4>💼 Business & Marketing</h4>
+                    <ul style="margin-top: 0.5rem;">
+                        <li><a href="https://www.kaggle.com/datasets/blastchar/telco-customer-churn" target="_blank"><strong>Telco Customer Churn</strong></a> - Predict customer retention (7,043 obs, 21 features) - Excellent for classification!</li>
+                        <li><a href="https://www.kaggle.com/datasets/shivamb/bank-customer-churn-prediction" target="_blank"><strong>Bank Customer Churn</strong></a> - Banking customer retention analysis (10,000 obs, 14 features)</li>
+                    </ul>
+                </div>
+
+                <div class="requirement-card">
+                    <h4>🏠 Real Estate & Housing</h4>
+                    <ul style="margin-top: 0.5rem;">
+                        <li><a href="https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques/data" target="_blank"><strong>House Prices (Ames)</strong></a> - Predict home prices with rich features (1,460 obs, 79 features) - Great for regression!</li>
+                        <li><a href="https://www.kaggle.com/datasets/camnugent/california-housing-prices" target="_blank"><strong>California Housing</strong></a> - Housing price prediction (20,640 obs, 10 features)</li>
+                    </ul>
+                </div>
+
+                <div class="requirement-card">
+                    <h4>💳 Finance & Credit</h4>
+                    <ul style="margin-top: 0.5rem;">
+                        <li><a href="https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud" target="_blank"><strong>Credit Card Fraud</strong></a> - Detect fraudulent transactions (284,807 obs, 31 features) - Imbalanced classification challenge</li>
+                        <li><a href="https://www.kaggle.com/datasets/laotse/credit-risk-dataset" target="_blank"><strong>Credit Risk</strong></a> - Loan default prediction (32,581 obs, 12 features)</li>
+                    </ul>
+                </div>
+
+                <div class="requirement-card">
+                    <h4>👥 HR & Employee Analytics</h4>
+                    <ul style="margin-top: 0.5rem;">
+                        <li><a href="https://www.kaggle.com/datasets/pavansubhasht/ibm-hr-analytics-attrition-dataset" target="_blank"><strong>IBM HR Attrition</strong></a> - Employee turnover prediction (1,470 obs, 35 features)</li>
+                        <li><a href="https://www.kaggle.com/datasets/vjchoudhary7/hr-analytics-case-study" target="_blank"><strong>HR Analytics</strong></a> - Employee retention analysis (14,999 obs, 10 features)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="tip-box" style="margin-top: 1.5rem;">
+                <h4 style="margin-bottom: 0.5rem;">💡 Choosing Your Dataset</h4>
+                <p><strong>Pick something that interests you!</strong> You'll spend several weeks with this data, so choose a topic you find engaging. Healthcare, business, finance, HR - whatever sparks your curiosity will make the project more enjoyable.</p>
+                <p style="margin-top: 0.5rem;"><strong>Quick tips:</strong></p>
+                <ul>
+                    <li><strong>For classification:</strong> Telco Churn, Heart Disease, or Credit Risk work great</li>
+                    <li><strong>For regression:</strong> House Prices (Ames) or California Housing are excellent choices</li>
+                    <li><strong>If you're new to ML:</strong> Start with Telco Churn or Diabetes - lots of tutorials available</li>
+                    <li><strong>Want a challenge:</strong> Credit Card Fraud (imbalanced data) or House Prices (many features) push your skills</li>
+                </ul>
+            </div>
+
+            <h3 class="section-subtitle" style="margin-top: 2rem;">Find Your Own Dataset</h3>
+            <p>Prefer to explore on your own? These are great places to find datasets:</p>
+            <ul>
+                <li><strong>Kaggle:</strong> <a href="https://www.kaggle.com/datasets" target="_blank">https://www.kaggle.com/datasets</a></li>
+                <li><strong>UCI ML Repository:</strong> <a href="https://archive.ics.uci.edu/ml/" target="_blank">https://archive.ics.uci.edu/ml/</a></li>
+                <li><strong>Government Data:</strong> data.gov, census.gov</li>
+                <li><strong>Domain-Specific:</strong> healthcare.gov, finance.yahoo.com, etc.</li>
+            </ul>
+
+            <h3 class="section-subtitle">Learning Resources</h3>
+            <ul>
+                <li><strong>Documentation:</strong> scikit-learn, pandas, matplotlib official docs</li>
+                <li><strong>Tutorials:</strong> Kaggle Learn, Google Colab tutorials</li>
+                <li><strong>Videos:</strong> StatQuest, 3Blue1Brown, Sentdex</li>
+                <li><strong>Books:</strong> <em>Hands-On Machine Learning</em> (Géron), <em>Python for Data Analysis</em> (McKinney)</li>
+            </ul>
+
+            <h3 class="section-subtitle">Getting Help</h3>
+            <div class="success-box">
+                <p><strong>I'm here to support your success!</strong> Don't hesitate to reach out if you have questions or want feedback.</p>
+                <p><strong>Office Hours:</strong> Wednesdays, 2:00 PM - 3:00 PM<br>
+                <a href="https://suffolk.zoom.us/j/92394809332?from=addon" target="_blank" style="color: var(--primary-color); font-weight: 600;">🔗 Join Zoom Office Hours</a></p>
+                <p><strong>Email:</strong> <a href="mailto:harslan@suffolk.edu">harslan@suffolk.edu</a></p>
+                <p><strong>Best Practices for Questions:</strong></p>
+                <ul>
+                    <li>Come to office hours for technical guidance and dataset feedback</li>
+                    <li>Check the FAQ section first</li>
+                    <li>When emailing, include specific details about what you've tried</li>
+                    <li>Use the discussion board to help classmates and learn from each other</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Submission Section -->
+        <section id="submission" class="section">
+            <h2 class="section-title">Submission Instructions</h2>
+
+            <div class="info-box">
+                <h3 style="margin-bottom: 1rem;">Submit via Canvas by Friday, December 12th, 11:59 PM:</h3>
+                <ol>
+                    <li><strong>GitHub Repository Link</strong> - Submit in Canvas "Term Project" assignment; ensure repository is public or instructor has access; verify all Colab notebook links work</li>
+                    <li><strong>Final Report PDF</strong> - Upload to Canvas as separate file; file name format: <code>LastName_FirstName_ISOM835_Project.pdf</code></li>
+                </ol>
+            </div>
+
+            <h3 class="section-subtitle">Before Submitting, Verify:</h3>
+            <ul class="checklist">
+                <li>GitHub repository is public and accessible</li>
+                <li>All Colab notebook links work and notebooks are viewable</li>
+                <li>README.md displays properly on GitHub</li>
+                <li>Report is professionally formatted and proofread</li>
+                <li>All required components are included</li>
+                <li>File names are correct</li>
+            </ul>
+
+            <div class="tip-box">
+                <p><strong>💡 Submission Tip:</strong> Test your GitHub links in an incognito window to make sure they're publicly accessible. Have a friend or classmate verify they can view your repository!</p>
+            </div>
+
+            <div class="info-box">
+                <p><strong>Late Policy:</strong> Please reach out if you anticipate any challenges meeting the deadline. I'm happy to discuss options and support your success.</p>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section id="faq" class="section">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+
+            <div class="info-box">
+                <h4>Q: Can I use a dataset from a previous course?</h4>
+                <p><strong>A:</strong> Yes, if you're doing a substantially different analysis with different models and questions. Please check with me first to ensure there's enough new content.</p>
+            </div>
+
+            <div class="info-box">
+                <h4>Q: Is 4 weeks enough time to complete this project?</h4>
+                <p><strong>A:</strong> Absolutely! This timeline is designed based on successful past projects. With 10-15 hours per week of focused work, you'll have plenty of time for quality analysis. The weekly checkpoints help you pace yourself effectively.</p>
+            </div>
+
+            <div class="info-box">
+                <h4>Q: How should I approach Thanksgiving week?</h4>
+                <p><strong>A:</strong> Many students find it helpful to make good progress in Week 1 so they can enjoy Thanksgiving break or work at a lighter pace. Others prefer to work steadily through all four weeks. Choose the approach that fits your schedule and energy best!</p>
+            </div>
+
+            <div class="info-box">
+                <h4>Q: Can I change my dataset after starting?</h4>
+                <p><strong>A:</strong> Yes, especially early in the project. If you realize your dataset isn't working well, it's better to switch early (ideally within the first week or two) than to struggle with a problematic dataset. Just let me know if you need to make a change.</p>
+            </div>
+
+            <div class="info-box">
+                <h4>Q: What if my models perform poorly?</h4>
+                <p><strong>A:</strong> That's completely okay! Real-world data doesn't always produce perfect predictions. What matters is demonstrating proper methodology, showing what you tried, and thoughtfully explaining the challenges. Honest analysis of limitations shows professional maturity.</p>
+            </div>
+
+            <div class="info-box">
+                <h4>Q: Should I focus more on the GitHub repository or the report?</h4>
+                <p><strong>A:</strong> Both are important! The report demonstrates your understanding and insights; GitHub demonstrates your technical skills and creates a portfolio piece. They complement each other.</p>
+            </div>
+
+            <div class="info-box">
+                <h4>Q: What if my GitHub repository gets private accidentally?</h4>
+                <p><strong>A:</strong> No problem! Just make sure it's public before the deadline. Double-check the visibility settings when you submit.</p>
+            </div>
+
+            <div class="info-box">
+                <h4>Q: How technical should my report be?</h4>
+                <p><strong>A:</strong> Write for a business-savvy reader who may not know machine learning details. Include enough technical information to demonstrate your work, but focus on clear explanations and business implications.</p>
+            </div>
+
+            <div class="info-box">
+                <h4>Q: Do I really need at least 2 models?</h4>
+                <p><strong>A:</strong> Yes, comparing different approaches is essential for understanding what works best for your problem. Most students naturally explore 2-3 models as they learn which techniques suit their data. Quality comparison of 2 models is better than superficial implementation of many!</p>
+            </div>
+
+            <div class="info-box">
+                <h4>Q: Can I get feedback before the final deadline?</h4>
+                <p><strong>A:</strong> Absolutely! Office hours are perfect for getting feedback on your dataset selection, approach, or preliminary results. The earlier you check in, the more time you have to incorporate suggestions.</p>
+            </div>
+        </section>
+
+        <!-- Call to Action -->
+        <section class="section">
+            <div class="success-box" style="text-align: center;">
+                <h2 style="margin-bottom: 1rem;">🚀 Ready to Create Something Great?</h2>
+                <p style="font-size: 1.1rem; margin-bottom: 1rem;">This project is your opportunity to demonstrate everything you've learned and build a portfolio piece you can be proud of.</p>
+                
+                <div style="text-align: left; max-width: 700px; margin: 1.5rem auto; background: white; padding: 1.5rem; border-radius: 8px;">
+                    <h3 style="color: var(--primary-color); margin-bottom: 1rem;">Getting Started Checklist:</h3>
+                    <ul class="checklist">
+                        <li>Review these guidelines thoroughly</li>
+                        <li>Explore potential datasets on Kaggle or UCI ML Repository</li>
+                        <li>Mark the checkpoint dates in your calendar</li>
+                        <li>Plan your Thanksgiving week approach</li>
+                        <li>Reach out with questions anytime!</li>
+                    </ul>
+                </div>
+
+                <p style="margin-top: 1.5rem; font-size: 1.1rem;">Remember: I'm here to support your success. Don't hesitate to reach out during office hours or via email if you have questions or want feedback at any stage.</p>
+                <p style="margin-top: 1rem; font-size: 1.2rem; font-weight: bold; color: var(--primary-color);">Looking forward to seeing your excellent work! 🌟</p>
+            </div>
+        </section>
+    </div>
+
+    <footer class="footer">
+        <p><strong>ISOM 835 - Predictive Analytics and Machine Learning</strong></p>
+        <p>Suffolk University | Sawyer Business School</p>
+        <p style="margin-top: 1rem;">Last Updated: November 2025</p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+            Questions? Email: <a href="/cdn-cgi/l/email-protection#abc3cad9d8c7cac5ebd8decdcdc4c7c085cecfde"><span class="__cf_email__" data-cfemail="91f9f0e3e2fdf0ffd1e2e4f7f7fefdfabff4f5e4">[email&#160;protected]</span></a>
+        </p>
+    </footer>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Highlight current section in navigation
+        const sections = document.querySelectorAll('.section');
+        const navLinks = document.querySelectorAll('.nav a');
+
+        window.addEventListen
